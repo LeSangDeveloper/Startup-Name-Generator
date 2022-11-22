@@ -17,9 +17,7 @@ class MainApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Startup Name")
         ),
-        body: Center(
-          child: Text(wordPair.asPascalCase)
-        )
+        body: const WordGenerator(),
       ),
     );
   }
@@ -36,7 +34,13 @@ class _WordGeneratorState extends State<WordGenerator> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(itemBuilder: (BuildContext context, int idx) {
+      if (idx.isOdd) {
         return const Divider();
+      }
+
+      return const ListTile(
+        title: Text('Test'),
+      );
     });
   }
 }
