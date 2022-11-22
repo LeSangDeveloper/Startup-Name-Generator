@@ -11,14 +11,9 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext ctx) {
     final wordPair = WordPair.random();
-    return MaterialApp(
+    return const MaterialApp(
       title: "Startup Name Generator",
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Startup Name")
-        ),
-        body: const WordGenerator(),
-      ),
+      home: WordGenerator()
     );
   }
 }
@@ -38,36 +33,41 @@ class _WordGeneratorState extends State<WordGenerator> {
   @override
   Widget build(BuildContext context) {
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(2.0),
-        itemBuilder: (BuildContext context, int idx) {
-      if (idx.isOdd) {
-        return const Divider();
-      }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Startup Name"),
+      ),
+      body: ListView.builder(
+          padding: const EdgeInsets.all(2.0),
+          itemBuilder: (BuildContext context, int idx) {
+            if (idx.isOdd) {
+              return const Divider();
+            }
 
-      final index = idx ~/ 2;
-      if (index >= _suggestions.length) {
-        _suggestions.addAll(generateWordPairs().take(10));
-      }
+            final index = idx ~/ 2;
+            if (index >= _suggestions.length) {
+              _suggestions.addAll(generateWordPairs().take(10));
+            }
 
-      final alreadySaved = _saved.contains(_suggestions[index]);
+            final alreadySaved = _saved.contains(_suggestions[index]);
 
-      return ListTile(
-        title: Text(_suggestions[index].asPascalCase, style: _fontSize,),
-        trailing: Icon(
-            alreadySaved ? Icons.favorite : Icons.favorite_border,
-            color: Colors.red,
-            semanticLabel: alreadySaved ? "Remove from saved" : "Save",
-        ),
-        onTap: () {
-          if (alreadySaved) {
-            _saved.remove(_suggestions[index]);
-          }
-          else {
-            _saved.add(_suggestions[index]);
-          }
-        },
-      );
-    });
+            return ListTile(
+              title: Text(_suggestions[index].asPascalCase, style: _fontSize,),
+              trailing: Icon(
+                alreadySaved ? Icons.favorite : Icons.favorite_border,
+                color: Colors.red,
+                semanticLabel: alreadySaved ? "Remove from saved" : "Save",
+              ),
+              onTap: () {
+                if (alreadySaved) {
+                  _saved.remove(_suggestions[index]);
+                }
+                else {
+                  _saved.add(_suggestions[index]);
+                }
+              },
+            );
+          }),
+    );
   }
 }
