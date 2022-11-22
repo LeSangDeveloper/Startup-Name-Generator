@@ -9,8 +9,8 @@ class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext ctx) {
-    final wordPair = WordPair.random();
+  Widget build(BuildContext context) {
+
     return const MaterialApp(
       title: "Startup Name Generator",
       home: WordGenerator()
@@ -35,9 +35,13 @@ class _WordGeneratorState extends State<WordGenerator> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Startup Name"),
+        title: const Text('Startup Name Generator'),
         actions: [
-          IconButton(onPressed: _pushSaved, icon: const Icon(Icons.list))
+          IconButton(
+            icon: const Icon(Icons.list),
+            onPressed: _pushSaved,
+            tooltip: 'Saved Suggestions',
+          ),
         ],
       ),
       body: ListView.builder(
@@ -76,10 +80,27 @@ class _WordGeneratorState extends State<WordGenerator> {
 
   void _pushSaved() {
     Navigator.of(context).push(
-        MaterialPageRoute(builder: (BuildContext context) {
+        MaterialPageRoute<void>(builder: (BuildContext context) {
+          final tiles = _saved.map((pair) {
+            return ListTile(
+              title: Text(
+              pair.asPascalCase,
+              style: _fontSize),
+          );
+          });
+
+          final divided = tiles.isNotEmpty ?
+          ListTile.divideTiles(
+            context: context,
+            tiles: tiles,
+          ).toList()
+              : <Widget>[];
+
           return Scaffold(
-            appBar: AppBar( title: const Text('Saved Suggestion')),
-            body: const Center(child: Text("data")),
+            appBar: AppBar(
+                title: const Text('Saved Suggestion')
+            ),
+            body: ListView(children: divided),
           );
         })
     );
