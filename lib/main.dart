@@ -59,6 +59,14 @@ class _WordGeneratorState extends State<WordGenerator> {
             color: Colors.red,
             semanticLabel: alreadySaved ? "Remove from saved" : "Save",
         ),
+        onTap: () {
+          if (alreadySaved) {
+            _saved.remove(_suggestions[index]);
+          }
+          else {
+            _saved.add(_suggestions[index]);
+          }
+        },
       );
     });
   }
