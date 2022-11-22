@@ -31,15 +31,31 @@ class WordGenerator extends StatefulWidget {
 }
 
 class _WordGeneratorState extends State<WordGenerator> {
+  final _suggestions = <WordPair>[];
+  final _fontSize = const TextStyle(fontSize: 18);
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(itemBuilder: (BuildContext context, int idx) {
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(2.0),
+        itemBuilder: (BuildContext context, int idx) {
       if (idx.isOdd) {
         return const Divider();
       }
 
-      return const ListTile(
-        title: Text('Test'),
+      final index = idx ~/ 2;
+      if (index >= _suggestions.length) {
+        _suggestions.addAll(generateWordPairs().take(10));
+      }
+
+      return ListTile(
+        title: Text(_suggestions[index].asPascalCase, style: _fontSize,),
+        trailing: const Icon(
+            Icons.favorite_border,
+            color: Colors.red,
+            semanticLabel: "save",
+        ),
       );
     });
   }
