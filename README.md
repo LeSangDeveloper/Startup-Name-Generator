@@ -1,2 +1,2 @@
 # Startup-Name-Generator
-For pratice Fluuter
+For pratice Flutter
