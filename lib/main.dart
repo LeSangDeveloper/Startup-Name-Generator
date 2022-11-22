@@ -33,6 +33,7 @@ class WordGenerator extends StatefulWidget {
 class _WordGeneratorState extends State<WordGenerator> {
   final _suggestions = <WordPair>[];
   final _fontSize = const TextStyle(fontSize: 18);
+  final _saved = <WordPair>{};
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +50,14 @@ class _WordGeneratorState extends State<WordGenerator> {
         _suggestions.addAll(generateWordPairs().take(10));
       }
 
+      final alreadySaved = _saved.contains(_suggestions[index]);
+
       return ListTile(
         title: Text(_suggestions[index].asPascalCase, style: _fontSize,),
-        trailing: const Icon(
-            Icons.favorite_border,
+        trailing: Icon(
+            alreadySaved ? Icons.favorite : Icons.favorite_border,
             color: Colors.red,
-            semanticLabel: "save",
+            semanticLabel: alreadySaved ? "Remove from saved" : "Save",
         ),
       );
     });
