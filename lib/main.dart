@@ -36,6 +36,9 @@ class _WordGeneratorState extends State<WordGenerator> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Startup Name"),
+        actions: [
+          IconButton(onPressed: _pushSaved, icon: const Icon(Icons.list))
+        ],
       ),
       body: ListView.builder(
           padding: const EdgeInsets.all(2.0),
@@ -68,6 +71,17 @@ class _WordGeneratorState extends State<WordGenerator> {
               },
             );
           }),
+    );
+  }
+
+  void _pushSaved() {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar( title: const Text('Saved Suggestion')),
+            body: const Center(child: Text("data")),
+          );
+        })
     );
   }
 }
